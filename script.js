@@ -17,16 +17,36 @@ const canvas = document.getElementById('canvas');
 const captureBtn = document.getElementById('captureBtn');
 const capturedPhotoDiv = document.getElementById('capturedPhoto');
 
+// Function to get the rear camera
+async function getRearCamera() {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+    // Attempt to find the rear camera
+    let rearCamera = videoDevices.find(device => device.label.toLowerCase().includes('environment')) ||
+        videoDevices.find(device => device.label.toLowerCase().includes('back')) ||
+        videoDevices[0]; // Fallback to the first camera
+
+    return rearCamera;
+}
+
 // Access the camera with a preference for the rear camera
-navigator.mediaDevices.getUserMedia({
-    video: { facingMode: { exact: "environment" } }
-})
-    .then(stream => {
+async function startCamera() {
+    const rearCamera = await getRearCamera();
+    if (rearCamera) {
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: { deviceId: rearCamera.deviceId } // Use the selected camera's device ID
+        });
         video.srcObject = stream;
-    })
-    .catch(err => {
-        console.error("Error accessing camera: ", err);
-    });
+    } else {
+        console.error("No rear camera found.");
+    }
+}
+
+// Call the function to start the camera
+startCamera().catch(err => {
+    console.error("Error accessing camera: ", err);
+});
 
 // Event listener to capture photo
 captureBtn.addEventListener('click', () => {
