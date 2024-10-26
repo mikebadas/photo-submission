@@ -11,33 +11,58 @@ function displayAnnouncements() {
     announcementDiv.innerText = announcements.join(' | ');
 }
 
-// Function to handle photo submissions
+// Initialize the camera and set up the video stream
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const captureBtn = document.getElementById('captureBtn');
+const capturedPhotoDiv = document.getElementById('capturedPhoto');
+
+// Access the camera and set up the video stream
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        video.srcObject = stream;
+    })
+    .catch(err => {
+        console.error("Error accessing camera: ", err);
+    });
+
+// Event listener to capture photo
+captureBtn.addEventListener('click', () => {
+    const context = canvas.getContext('2d');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Convert the canvas image to a data URL and display it
+    const photoDataURL = canvas.toDataURL('image/png');
+    capturedPhotoDiv.innerHTML = `<img src="${photoDataURL}" alt="Captured Photo" style="max-width: 100%;">`;
+});
+
+// Handle form submission for feedback
 function handleFormSubmission(event) {
     event.preventDefault(); // Prevent the default form submission behavior
 
-    const photoInput = document.getElementById('photoInput');
     const feedbackInput = document.getElementById('feedbackInput');
     const submissionMessage = document.getElementById('submissionMessage');
     const feedbackList = document.getElementById('feedbackList');
 
-    const photoFile = photoInput.files[0];
-    const feedbackText = feedbackInput.value;
+    if (canvas.toDataURL()) {
+        const feedbackText = feedbackInput.value;
 
-    if (photoFile) {
         // Create a list item for the feedback
         const feedbackItem = document.createElement('li');
-        feedbackItem.innerText = `Photo submitted: ${photoFile.name} | Feedback: ${feedbackText}`;
+        feedbackItem.innerHTML = `<img src="${canvas.toDataURL()}" alt="Submitted Photo" style="width: 100px; height: auto;"> Feedback: ${feedbackText}`;
         feedbackList.appendChild(feedbackItem);
 
         // Display a success message
-        submissionMessage.innerText = "Your photo has been submitted successfully!";
+        submissionMessage.innerText = "Your photo and feedback have been submitted successfully!";
         submissionMessage.style.color = "green";
 
         // Reset the form
-        photoInput.value = "";
         feedbackInput.value = "";
+        capturedPhotoDiv.innerHTML = ""; // Clear the captured photo preview
     } else {
-        submissionMessage.innerText = "Please select a photo.";
+        submissionMessage.innerText = "Please capture a photo before submitting.";
         submissionMessage.style.color = "red";
     }
 }

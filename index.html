@@ -7,29 +7,38 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Photo Submission Platform</h1>
-        <div id="announcement"></div>
-    </header>
-    
-    <main>
-        <section id="submission-form">
-            <h2>Submit Your Photo</h2>
-            <form id="photoForm">
-                <input type="file" id="photoInput" accept="image/*" capture="environment" required>
-                <label for="feedbackInput">Provide your feedback:</label>
-                <textarea id="feedbackInput" placeholder="Leave your feedback..." required></textarea>
-                <button type="submit">Submit Photo</button>
-            </form>
-            <div id="submissionMessage"></div>
-        </section>
-        
-        <section id="feedback">
-            <h2>Feedback Received</h2>
-            <ul id="feedbackList"></ul>
-        </section>
-    </main>
+<header>
+    <h1>Photo Submission Platform</h1>
+    <div id="announcement"></div>
+</header>
 
-    <script src="script.js"></script>
+<main>
+    <!-- Section for taking a photo directly using the camera -->
+    <section id="cameraSection">
+        <h2>Take a Photo</h2>
+        <video id="video" autoplay></video>
+        <button id="captureBtn">Capture Photo</button>
+        <canvas id="canvas" style="display: none;"></canvas>
+        <div id="capturedPhoto"></div>
+    </section>
+
+    <!-- Feedback form to submit the photo -->
+    <section id="submission-form">
+        <h2>Submit Your Photo</h2>
+        <form id="photoForm">
+            <textarea id="feedbackInput" placeholder="Leave your feedback..." required></textarea>
+            <button type="submit">Submit Photo</button>
+        </form>
+        <div id="submissionMessage"></div>
+    </section>
+
+    <!-- Section for displaying feedback received -->
+    <section id="feedback">
+        <h2>Feedback Received</h2>
+        <ul id="feedbackList"></ul>
+    </section>
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
