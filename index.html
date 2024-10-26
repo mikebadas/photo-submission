@@ -16,7 +16,8 @@
         <section id="submission-form">
             <h2>Submit Your Photo</h2>
             <form id="photoForm">
-                <input type="file" id="photoInput" accept="image/*" required>
+                <input type="file" id="photoInput" accept="image/*" capture="environment" required>
+                <label for="feedbackInput">Provide your feedback:</label>
                 <textarea id="feedbackInput" placeholder="Leave your feedback..." required></textarea>
                 <button type="submit">Submit Photo</button>
             </form>
