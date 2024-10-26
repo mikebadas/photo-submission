@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Submission Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Photo Submission Platform</h1>
+        <div id="announcement"></div>
+    </header>
+    
+    <main>
+        <section id="submission-form">
+            <h2>Submit Your Photo</h2>
+            <form id="photoForm">
+                <input type="file" id="photoInput" accept="image/*" required>
+                <textarea id="feedbackInput" placeholder="Leave your feedback..." required></textarea>
+                <button type="submit">Submit Photo</button>
+            </form>
+            <div id="submissionMessage"></div>
+        </section>
+        
+        <section id="feedback">
+            <h2>Feedback Received</h2>
+            <ul id="feedbackList"></ul>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
