@@ -11,14 +11,16 @@ function displayAnnouncements() {
     announcementDiv.innerText = announcements.join(' | ');
 }
 
-// Initialize the camera and set up the video stream
+// Initialize the camera and set up the video stream with rear camera preference
 const video = document.getElementById('video');
 const canvas = document.getElementById('canvas');
 const captureBtn = document.getElementById('captureBtn');
 const capturedPhotoDiv = document.getElementById('capturedPhoto');
 
-// Access the camera and set up the video stream
-navigator.mediaDevices.getUserMedia({ video: true })
+// Access the camera with a preference for the rear camera
+navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { exact: "environment" } }
+})
     .then(stream => {
         video.srcObject = stream;
     })
